@@ -1,0 +1,180 @@
+#All{height: 100%; width: 100%;}
+	#TheDiv{text-align:center;margin-top:15px;}
+		
+		#DivTitle{margin-top:75px;}
+		
+		#Qui{margin-left:auto;margin-right:auto;height: 13px;}
+		
+		#DivMessage{}
+			#DivMessage2{height: 90px;width: 500px;background-color:#eee;border-radius: 20px;margin-left:auto;margin-right:auto;text-align:center;padding-top:20px;}
+				#DAtexte{}
+				#DAok{padding-top:13px;}
+					#DAokb{
+						border:none;
+						padding:10px 20px 10px 20px;
+						border-radius:25px;
+						box-shadow:2px 2px 2px #999;
+						background:#fff;
+						color:#555;
+						font-family:Abalone;
+					}
+		
+		#DivAbalone{}
+		
+			#DivGame{height: 530px;width: 620px;border-radius: 40px;background-color:transparent;display:inline-block;position:static;margin-top:15px;}
+				#Plat{padding-top:20px;}
+					.Line{display:block;height:4px;}
+					
+						.Case{border-radius: 20px;margin-top:5px;width:40px;height: 40px;margin-left:10px;margin-right:10px;background-color:#a8a8a8;display:inline-block;}
+						.Casej2{border-radius: 20px;margin-top:5px;width:40px;height: 40px;margin-left:10px;margin-right:10px;background-color:#000;display:inline-block;box-shadow: 2px 2px 0px #aaa;}
+						.Casej1{border-radius: 20px;margin-top:5px;width:40px;height: 40px;margin-left:10px;margin-right:10px;background-color:#eee;display:inline-block;border: 0.1px solid #000;box-shadow: 2px 2px 0px #aaa;}
+						
+						.Casesddiv{border-radius: 20px;margin-top:5px;width:40px;height: 40px;margin-left:10px;margin-right:10px;background-color:#5c5;display:inline-block;}
+						.Casesdj2{border-radius: 20px;margin-top:5px;width:40px;height: 40px;margin-left:10px;margin-right:10px;background-color:#080;display:inline-block;}
+						.Casesdj1{border-radius: 20px;margin-top:5px;width:40px;height: 40px;margin-left:10px;margin-right:10px;background-color:#6f6;display:inline-block;}
+						
+						.Casesfdiv{border-radius: 20px;margin-top:5px;width:40px;height: 40px;margin-left:10px;margin-right:10px;background-color:#cc5;display:inline-block;}
+						.Casesfj2{border-radius: 20px;margin-top:5px;width:40px;height: 40px;margin-left:10px;margin-right:10px;background-color:#880;display:inline-block;}
+						.Casesfj1{border-radius: 20px;margin-top:5px;width:40px;height: 40px;margin-left:10px;margin-right:10px;background-color:#ff6;display:inline-block;}
+						
+							.effet0 img{height:20px;transform: translateX(-4px);}
+							.effet1 img{height:20px;transform: translateX(-4px);}
+							.effet2 img{height:20px;transform: translateY(3px);}
+							
+			#DivInfo{height: 650px;width: 250px;margin-left:40px;display:inline-block;position:fixed;transform: translateY(-100px);border-radius: 10px;}
+				.Borderline{width:50px;height:2px;background-color:#000;margin-left:auto;margin-right:auto;}
+				.margg{width:50px;height:20px;}
+				.margg2{width:50px;height:60px;}
+				#Black{width: 200px;height: 150px;border-radius: 15px;background-color:#222;margin-left:auto;margin-right:auto;margin-top:15px;box-shadow: 2px 2px 0px #aaa;}
+				#White{width: 200px;height: 150px;border-radius: 15px;background-color:#eee;margin-left:auto;margin-right:auto;margin-top:15px;transform: translateY(-30px);box-shadow: 2px 2px 0px #aaa;;}
+					.CenterH{width:25px;height:55px;}
+					.TextScore{color:#e11;font-size:23px;font-family:Abalone, serif;font-style:bold;}
+					.ordi{color:#e11;font-size:29px;font-family:Abalone, serif;font-style:bold;}
+				#nmbcoup{transform: translateY(-65px);}
+				#refreshdiv{transform: translateY(-40px);}
+				#refresh{
+					border:none;
+					padding:10px 20px 10px 20px;
+					border-radius:25px;
+					box-shadow:2px 2px 2px #999;
+					background:#fff;
+					color:#555;
+					font-family:Abalone;
+				}		
+				#helpe{
+					border:none;
+					padding:10px 20px 10px 20px;
+					border-radius:25px;
+					box-shadow:2px 2px 2px #999;
+					background:#fff;
+					color:#555;
+					font-family:Abalone;
+				}
+				#arrow1 img{display:inline-block;height:60px;width:60px;margin-left:auto;margin-right:auto;transform: translateY(-50px);}
+				#arrow2 img{display:inline-block;height:60px;width:60px;margin-left:auto;margin-right:auto;transform: translateY(-30px);}
+				#arrow1{display:inline-block;height:60px;width:60px;margin-left:auto;margin-right:auto;transform: translateY(-30px);}
+				#arrow2{display:inline-block;height:60px;width:60px;margin-left:auto;margin-right:auto;}
+				#version{display:inline-block;margin-left:5px; }
+				#version2{display:inline-block;margin-left:5px;}
+		
+			#ClavierID{transform:translateY(-30px);}
+				#DivKey{height: 160px;width: 160px;margin-left:auto;margin-right:auto;display:inline-block;margin-top:0px;}
+					.MiniDivKeyOn{height: 50px;width: 50px;display:inline-block;border-radius: 8px;box-shadow: 4px 4px 0px #aaa;background-color:#eee;}
+					.MiniDivKeyOff{height: 50px;width: 50px;display:inline-block;}
+					.MiniDivKeyOn img{height: 50px;width: 50px;}
+					
+				#DivClavier img{height: 150px;text-align:center;display:inline-block;opacity:0.85;}
+				#DivClavier{text-align:center;display:inline-block;width: 250px;margin-left:35px;}		
+				#DivClavier2 img{height: 160px;text-align:center;display:inline-block;}
+				#DivClavier2{text-align:center;display:inline-block;width: 250px;}
+
+			#Param{height: 470px;width: 620px;background-color:#eee;margin-top:15px;margin-left:auto;margin-right:auto;padding-top:50px;border-radius: 40px;}
+				#Ptitre{}
+				.Pbar{height: 90px;width: 560px;margin-top:40px;background-color:#fff;margin-left:auto;margin-right:auto;border-radius:7px;}
+				.Pbar2{height: 90px;width: 560px;margin-top:40px;background-color:#ffffb8;margin-left:auto;margin-right:auto;border-radius:7px;}
+					.PbarTxt{height: 20px;width: 350px;display:inline-block;text-align:left;padding-left:30px;transform: translateY(-5px);}
+					.PbarTxt2{height: 20px;width: 350px;display:inline-block;text-align:left;padding-left:30px;transform: translateY(15px);}
+					.PbarBtn{height: 90px;width: 90px;display:inline-block;text-align:center;}
+						#retour{transform: translateY(-5px);}
+						.Btn2{padding:22px 42px;border-radius:25px;width: 120px;}
+					.PbarBtn2{height: 90px;width: 130px;display:inline-block;text-align:center;}
+						.Btn{padding:42px 42px;border-radius:25px;width: 120px;}
+						#IABtn{}
+						
+
+						
+			#DivHelp{height: 460px;width: 620px;background-color:#eee;margin-top:25px;margin-left:auto;margin-right:auto;padding-top:50px;border-radius: 40px;}
+				#Htitre{}
+				#Htexte{margin-left:15px;margin-right:15px;margin-top:10px;text-align:left;}
+						
+
+	#foot{height: 50px;text-align:center;background-color:transparent;padding-top:20px;}
+		
+				@font-face{
+					font-family: Abalone;
+					src: url("..\\css\\Shorelines Display.otf");
+				}
+				@font-face{
+					font-family: CastaingFont;
+					src: url("..\\css\\AllerRg.ttf");
+				}
+		
+				Shorelines{
+					font-family: Abalone, serif;
+					font-size:30px;
+					font-style: normal;
+					line-height:5px;
+					line-through:5px;
+				}
+			
+			Castaing{
+				font-family: Abalone, serif;
+				font-size:23px;
+				font-style: normal;
+				line-height:5px;
+				line-through:5px;
+			}
+			
+			Castaing2{
+				font-family: Abalone, serif;
+				font-size:12px;
+				font-style: normal;
+				line-height:5px;
+				line-through:5px;
+			}
+			
+			Castaing3{
+				font-family: Abalone, serif;
+				font-size:35px;
+				font-style: normal;
+				line-height:4px;
+				line-through:5px;
+			}
+			
+			Castaing4{
+				font-family: CastaingFont, serif;
+				font-size:16px;
+				font-style: normal;
+				line-height:23px;
+				line-through:5px;
+			}
+			
+			Castaing5{
+				font-family: CastaingFont, serif;
+				font-size:12px;
+				font-style: normal;
+				line-height:23px;
+				line-through:5px;
+			}
+			Castaing6{
+				font-family: CastaingFont, serif;
+				font-size:14px;
+				font-style: normal;
+				line-height:23px;
+				line-through:5px;
+			}
+			
+			body{
+				background-image: url("../imgs/test.jpg");
+			}
+					

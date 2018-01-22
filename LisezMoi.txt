@@ -1,0 +1,71 @@
+Abalone 1.0 - CASTAING Alexandre
+
+---SOURCES---
+
+Source Fichier .ico: 
+• http://sppa4apps.com/index-fr.html
+
+Source Autres Images:
+• CASTAING Alexandre
+
+Code HTML/CSS:
+• CASTAING Alexandre
+
+Code Javascript/Jquery:
+• CASTAING Alexandre
+
+---CAHIER DES CHARGES---
+
+Voir fichier regle.pdf pour les rêgles du jeu.
+
+Bref résumé des rêgles du jeu: Le but pour gagner est de pousser 6 billes noires ou 6 billes blanches hors de l'hexagone. A chaque tour, vous devez effectuer un mouvement en déplaçant de 1 à 3 billes sur l'axe de votre choix. Vous devez pousser les billes adverses avec vos billes mais en ayant une supériorité numérique dans les déplacements avec un rapport maximum de 3 billes pour 2. Une fois le déplacement effectué, c'est à l'adversaire de jouer. Pour vous déplacer sur le plateau, appuyez sur 8, 4, 5, 6. Pour sélectionner une bille, appuyez sur Espace. Une fois la bille selectionnée, déplacez vous vers la case où vous voulez aller et appuyer sur Espace.
+
+Nous sommes toujours la couleur noir dans cette version du jeu lorsqu'on jous contre l'IA.
+
+Les mouvements latéraux ne sont pas pris en compte dans cette version du jeu.
+
+Le jeu est simple (pas trop de bouttons, ni d'informations pour l'utilisateur) et ce joue à 1 ou à 2 joueurs.
+
+En mode 1 joueur, une IA dois être fonctionnel.
+
+En mode 2 joueur, une partie entre 2 personne dois se faire.
+
+L'utilisateur se sert du clavier pour jouer et déplacer le selecteur.
+
+Le clavier ne fonctionne pas sur tous les navigateurs, un clavier visuel est mis en place.
+
+---------------------- 
+
+(Lors du codage du jeu, pour le tracasse et la logique du plateau de jeu hexadecimal, nous avons définit 2 axes primaires et un autre axe dépendant de ces 2 axes. L'axe X est vertical, l'axe Y est à +60° par rapport à l'axe X à l'affichage, et l'axe Z dépend de la somme de la position dans l'axe X et Y et est à +120° par rapport à l'axe X.)
+
+Le jeu fonctionne en plusieurs parties dépendant de la variable "mode".
+
+mode = ?:
+	// =0 alors rien
+	// =1 alors Joueur 1 Selection position   	- En mode 2 joueur, Joueur 1 est Le 2eme joueur
+	// =2 alors Joueur 1 Selection direction 
+	// =3 alors passage Joueur 2 
+	// =4 alors Joueur 2 Selection position  	- Joueur 2 est le joueur
+	// =5 alors Joueur 2 Selection direction
+	// =6 alors passage Joueur 1 et vérifie si IA ou Joueur, si IA mode 10, si Joueur mode 1
+	// =8 alors fin du jeu, affiche message et passage au mode 9
+	// =9 alors fin du jeu officiel
+	// =10 alors IA								- En mode 1 joueur, IA
+
+on commence le jeu avec mode =4 puisque le joueur billes noirs commence.
+
+---
+
+FONCTIONNEMENT DE L'IA:
+
+Lorsque c'est le tour de l'IA, on créer une boucle qui vérifie chaque case et chaque direction autour de lui, cette boucle est executé 10 fois, avec la boucle IAmode allant de 0 à 9. On attribue à chaque case et à chaque direction une valeur d'importance
+//IAmode=0 --> vérification des coups possibles et des coups à faire [+1](ou +2 aléatoire)
+//IAmode=1 --> On valorise la bille joueur la plus proche [+1]
+//IAmode=2 --> et les billes IA sur la limite [+1]
+//IAmode=3 --> vérifie si il peut attaquer le joueur ou si il est suseptible de perdre une bille [+50][+50]
+//IAmode=4 --> limite = retire la valeur du déplacement pour UNE BILLE [=0]
+//IAmode=5 --> cherche le coup le plus fort, sinon un coup au hasard (1ere étape) 
+//IAmode=6 --> cherche le coup le plus fort, sinon un coup au hasard (2eme étape)
+//IAmode=7 --> cherche le coup le plus fort, sinon un coup au hasard (3eme étape)
+//IAmode=8 --> EXECUTE LE DEPLACEMENT
+//IAmode=9 --> vérifie si une bille c'est bien déplacé (sinon recommencer avec un coup possibles au hasard)

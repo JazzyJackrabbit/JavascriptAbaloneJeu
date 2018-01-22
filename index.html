@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+	
+		<!-- CSS -->
+		<link rel="stylesheet" type="text/css" href="css\main.css">
+		
+		<meta charset="utf-8" /> <!-- Encodage des ch$ -->	
+		
+		<title id="titrePage"> ABALONE </title>
+		
+		<link rel="icon" type="image/png" href="imgs\ico.ico" />
+		
+	</head>
+	
+	<body>
+		
+		<div id="All">
+		
+			<div id="TheDiv">		
+			
+				<div id="DivTitle">
+				
+					<Shorelines><h1>ABALONE</h1></Shorelines>
+			
+				</div>
+				
+				<Castaing5><div id="Qui"></div></Castaing5>
+				
+				<div id="DivMessage">
+					<div class="margg"></div>
+					<div id="DivMessage2">
+						<div id="DAtexte">
+							<Castaing4>Vous êtes le joueur aux billes noires.</Castaing4>
+						</div>
+						<div id="DAok">
+							<button id="DAokb">OK</button>
+						</div>
+					</div>
+					<div class="margg"></div>
+				</div>
+			
+				<div id="DivAbalone">
+				
+					<div id="DivGame">
+					
+						<div id="ImageFont">
+							<!--<img src="imgs\pl.jpg" />-->	
+						</div>
+					
+						<canvas id="Plat" width=530 height=620> 
+							
+						</canvas>
+					
+					</div>
+					
+
+					
+					<div id="DivInfo">
+					
+						<Castaing><h1>Score</h1></Castaing>
+						<div class="margg"></div>
+						<div class="Borderline"></div>
+						<div class="margg"></div>
+						
+						<div id="Black">
+							<div class="CenterH"></div>
+							<div class="TextScore" id="j2">
+							
+							6
+							
+							</div>
+						</div>
+						
+						<div id="arrow2"></div>
+					
+						
+						<div id="White">
+							<div class="CenterH"></div>
+							<div class="TextScore" id="j1">
+							
+							6
+							
+							</div>
+
+						</div>
+						<div id="ordi">
+								 
+						</div>
+						
+						<div id="arrow1"></div>
+						
+						<Castaing2><div id="nmbcoup">
+							Coup: 0
+						</div></Castaing2>
+						
+						<div id="refreshdiv">
+						
+							<a><button id="refresh">
+								Rejouer
+							</button></a>
+							<div style="display:inline-block;margin-left:15px;">
+						
+								<button id="helpe">
+									?
+								</button>
+							</div>
+						</div>
+						
+						
+						
+						<Castaing2><div id="version"></div></Castaing2>
+						<Castaing6><div id="version2"></div></Castaing6>
+			
+				
+					</div>
+				
+					<div id="ClavierID">
+					
+
+										
+						
+						<div></div>		
+					
+						<div id="DivKey"> 
+							<div class="MiniDivKeyOff" id="MiniDivKey1"></div>
+							<div class="MiniDivKeyOn" id="MiniDivKey2">
+								<img src="imgs\1.png" />
+							</div>
+							<div class="MiniDivKeyOff" id="MiniDivKey3"></div>
+							<div class="MiniDivKeyOn" id="MiniDivKey4">
+								<img src="imgs\2.png" />
+							</div>
+							<div class="MiniDivKeyOn" id="MiniDivKey5">
+								<img src="imgs\ok.png" />
+							</div>
+							<div class="MiniDivKeyOn" id="MiniDivKey6">
+								<img src="imgs\3.png" />
+							</div>
+							<div class="MiniDivKeyOff" id="MiniDivKey7"></div>
+							<div class="MiniDivKeyOn" id="MiniDivKey8">
+								<img src="imgs\4.png" />
+							</div>
+							<div class="MiniDivKeyOff" id="MiniDivKey9"></div>
+						</div>
+						
+						<div id="DivClavier">
+							<img src="imgs\clavier.png"/>
+						</div>
+					</div>
+			
+					<div id="Param">
+						<div id="Ptitre"> 
+							<Castaing3>
+								Options
+							</Castaing3>
+							<div class="Pbar">
+								<div class="PbarTxt2">
+									<Castaing>Coup Précédent</Castaing>
+								</div>							
+								<div class="PbarBtn">
+									<Castaing2><button class="Btn2" id="av">
+										<div> <img id="retour" src="imgs\retour.jpg" height=40px /> </div>
+									</button></Castaing2>
+								</div>
+							</div>			
+							<div class="Pbar">
+								<div class="PbarTxt">
+									<Castaing>Multijoueurs / IA</Castaing>
+								</div>							
+								<div class="PbarBtn">
+									<Castaing2><button class="Btn" id="PTMIA">
+										IA
+									</button></Castaing2>
+								</div>
+							</div>			
+							<div class="Pbar2">
+								<div class="PbarTxt">
+									<Castaing>Info Clavier</Castaing>
+								</div>							
+								<div class="PbarBtn">
+									<Castaing2><button class="Btn" id="KeyMode">
+										Non
+									</button></Castaing2>
+								</div>
+							</div>	
+							<!-- <div class="Pbar">
+								<div class="PbarTxt">
+									<Castaing>Couleurs</Castaing>
+								</div>							
+								<div class="PbarBtn">
+									<Castaing2><button class="Btn" id="CLRBL">
+										1/13
+									</button></Castaing2>
+								</div>
+							</div> -->						
+						</div>
+					</div>
+					
+					<div class="margg"></div>
+					<div class="margg"></div>
+					
+					<div id="DivHelp">
+						<div id="Htitre"> 
+							<Castaing3>
+								Aide
+							</Castaing3>
+						</div>
+						<div class="margg"></div>
+						<Castaing4>
+							<div id="Htexte">
+							Régle: Le but pour gagner est de pousser 6 billes noires ou 6 billes blanches hors de l'hexagone. 
+							</div>
+							<div id="Htexte">
+							A chaque tour, vous devez effectuer un mouvement en déplaçant de 1 à 3 billes sur l'axe de votre choix. 
+							</div>
+							<div id="Htexte">
+							Vous devez pousser les billes adverses avec vos billes mais en ayant une supériorité numérique dans les déplacements avec un rapport maximum de 3 billes pour 2. 
+							</div>
+							<div id="Htexte">
+							Une fois le déplacement effectué, c'est à l'adversaire de jouer. 
+							</div>
+							<div id="Htexte">
+							Pour déplacer le selecteur vert sur le plateau, appuyez sur 8, 4, 5, 6 ou Z, Q, S, D.
+							</div>
+							<div id="Htexte">
+							Pour sélectionner une bille, appuyez sur 0, 7 ou B. 
+							</div>
+							<div id="Htexte">
+							Une fois la bille selectionnée, déplacez vous vers la case où vous voulez aller et appuyer sur 0, 7 ou B pour confirmer le déplacement.
+							</div>
+						</Castaing4>
+					</div>
+					
+					<div id="DivClavier2">
+						<img src="imgs\clavier.png"/>
+					</div>
+					
+					
+					<div class="margg2"></div>
+									
+				</div>
+			
+			</div>
+			
+			<Castaing5><div id="foot"></div></Castaing5>
+		
+		</div>
+			
+	</body>
+	
+	<script type="text/javascript" src="src\jquery.min.js"></script>	
+	<script type="text/javascript" src="src\main.js"></script>
+	
+</html>
+
