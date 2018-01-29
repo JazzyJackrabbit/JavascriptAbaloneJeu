@@ -1,20 +1,20 @@
 jQuery(document).ready(function($){
-	
+
 	var version = "1.0";
-	
+
 	console.log("Abalone - Version: "+version+" - CASTAING Alexandre");
-	
+
 	//Joueur non-IA de jouer, affiche la fleche verte
 	//debutHTML();
 
 	//en haut de la page
 	$(document).scrollTop(0);
-	
+
 	// mode de jeu + passage Joueur 1
 	// =0 alors rien
 	// =1 alors Joueur 1 Selection position   	- En mode 2 joueur, Joueur 1 est Le 2eme joueur
-	// =2 alors Joueur 1 Selection direction 
-	// =3 alors passage Joueur 2	
+	// =2 alors Joueur 1 Selection direction
+	// =3 alors passage Joueur 2
 	// =4 alors Joueur 2 Selection position  	- Joueur 2 est le joueur
 	// =5 alors Joueur 2 Selection direction
 	// =6 alors passage Joueur 1 (ou IA en mode 10)
@@ -22,13 +22,13 @@ jQuery(document).ready(function($){
 	// =9 alors fin du jeu officiel
 	// =10 alors IA								- En mode 1 joueur, IA
 	var mode = 4;
-	
+
 	//Utilisé pour empecher la page de descendre lorsque qu'on appuye sur espace
-	var timerScroll = 0; 
+	var timerScroll = 0;
 	var timeTimerScroll = 10;
-	
+
 	var NombreJoueurs = 1;
-	
+
 	// variables tableaux et boucles
 	var x = 0;
 	var y = 0;
@@ -36,71 +36,71 @@ jQuery(document).ready(function($){
 	var xx = 0;
 	var yy = 0;
 	var zz = 0;
-	
+
 	// nombre de billes
 	var j1 = 6;
 	var j2 = 6;
-	
+
 	//couleurs billes
 	var clr = 0;//mode
 	var clr1 = 0;//j1
 	var clr2 = 0;//j2
-	
-	//couleurs par default	
+
+	//couleurs par default
 	clr1 = "#eee";
 	clr2 = "#222";
-	
+
 	// variables position selecteur départ & position selecteur final
 	// position selecteur
 	var xs = 35;
 	var ys = 35;
 	var zs = xs + ys;
-	//memoires tampons 
-	var xsd = xs; 
+	//memoires tampons
+	var xsd = xs;
 	var ysd = xs;
 	var xsf = xs;
 	var ysf = xs;
-	
+
 	//memoires tampons pour redefinir xs; ys sur Axe Z
 	var memoxs = 0;
 	var memoys = 0;
-	
+
 	//la derniere touche appuyé
 	var Touche = 0;
-	
+
 	//Affiche clavier visuel (=1) ou non (=0)
 	var ClavierID = 0;
-	
+
 	//variable memoire tampon IA ou multijoueur pour changer le titre de la page
 	var Ttstate = "IA";
-	
-	//On créera une matrice a une dimention qui prendra l'axe a modifier, on a besoin de 
+
+	//On créera une matrice a une dimention qui prendra l'axe a modifier, on a besoin de
 	var SENS = 0; // 1= positif ; -1= négatif
 	var AXE = 0; // 0= X ; 1= Y ; 2= Z
 	var axeV = 0; //C'est la valeur de la position dans la matrice de l'axe dans lequel on travail
-	
+
 	//Quel joueur est conserné à chaque fois
 	var JoueurA = 0;
 	var JoueurB = 0;
-		
+
 	//nombre de tour joués pour les 2 joueurs
 	var nCoup = 0;
-		
+
 	//enregistre les 20 derniers tours pour pouvoir annuler et retourner en arriere si voulu
 	var MJ=[];
-	
+
 	// =0 alors Affiche pas l'aide, =1 alors Affiche l'aide
 	var aideOK = 0;
-	
+
 	//texte "C'est au tour de ~ "
 	var qui = "des noirs";
-	
+
 	//memorise position selecteur pour chaque joueur
 	var xsmemjr1=35;
 	var ysmemjr1=35;
 	var xsmemjr2=35;
 	var ysmemjr2=35;
-	
+
 	//créer un tableau d'axe X et Y, (l'axe z sera la somme de x et de y)
 	//si =0 alors rien, si =1 alors Joueur 1, si =2 alors Joueur 2, si =3 alors Case Vide
 	var j = []; //tableau valeurs jeu
@@ -109,7 +109,7 @@ jQuery(document).ready(function($){
 	for(x=0; x<=70; x++){
 		j[x]=[];
 		jmem[x]=[];
-		k[x]=0; 
+		k[x]=0;
 		MJ[x]=[];
 		for(y=0; y<=70; y++){
 			j[x][y]=0;
@@ -120,14 +120,14 @@ jQuery(document).ready(function($){
 			};
 		};
 	};
-	
+
 	//variable sortie de condition et passage de condition ( 0=condition effectué ; 1=condition passé)
-	var ps = 0; 
-	
+	var ps = 0;
+
 	function getRandomArbitrary(min, max) {
 		return Math.random() * (max - min) + min;
 	};
-		
+
 	//variable utilisées par l'IA
 	var IA = []; //IACP tableau x y AXE & SENS pour les coups possibles avec pour valeur 1 ou + suivant l'importance du coup à faire
 	var ValeurMax = 0;
@@ -159,13 +159,13 @@ jQuery(document).ready(function($){
 			IA[i1][i2]=[];
 			IAverifieCoup[i1][i2] = 0;
 			for(var i3=0; i3<=2; i3++){
-				IA[i1][i2][i3]=[]; 
-				for(var i4=0; i4<=1; i4++){	
+				IA[i1][i2][i3]=[];
+				for(var i4=0; i4<=1; i4++){
 					IA[i1][i2][i3][i4]=0;
 				};
 			};
 		};
-	};		
+	};
 	//mémorise les coups avec le meme niveau d'importance pour chercher un déplacement au hasard
 	IAxAlea=[];
 	IAyAlea=[];
@@ -181,9 +181,9 @@ jQuery(document).ready(function($){
 
 	// fonction Frames en boucle
 	setInterval(Frames,1);
-	
+
 	jeu(); //clavier, commandes utilisateurs, vérifications et changement des positions des cases joueurs
-	
+
 	//Boucle Principal
 	function Frames(){
 		ScrollEnHaut();
@@ -199,9 +199,9 @@ jQuery(document).ready(function($){
 			if(j1<1||j2<1){
 				mode = 8;
 			};
-		};	
+		};
 	};//fin fonction Boucle Principal
-	
+
 	function ScrollEnHaut(){
 	//scroll vers le haut de la page
 		if(timerScroll>0){
@@ -210,11 +210,11 @@ jQuery(document).ready(function($){
 			if(timerScroll==1){if(Touche==48||Touche==98||Touche==55){Touche=0};};
 		};
 	};//fin fonction Scroll auto en haut de la page
-	
+
 	function limiteC(){ //limite curseur mode selection d'une bille, le curseur vert doit rester dans le plateau
 		for (y=31;y<=39;y++){
 			for (x=31;x<=39;x++){
-				z = x + y;    
+				z = x + y;
 				zs  = xs + ys;
 				//Axe x et y
 				if(xs < 31){
@@ -227,13 +227,13 @@ jQuery(document).ready(function($){
 					};
 				if(ys < 31){ys = 31};
 				if(ys > 39){ys = 39};
-				
+
 				//Axe z
 				if(zs < 66){
 					xs = memoxs; ys = memoys;
 					if(Touche==122||Touche==56){xs += 1; ys -= 1;} // touche du haut
 					if(Touche==113||Touche==52){xs -= 1; ys += 1;}// touche de gauche
-				};				
+				};
 				if(zs > 74){
 					xs = memoxs; ys = memoys;
 					if(Touche==115||Touche==53){xs -= 1; ys += 1;} // touche du bas
@@ -242,7 +242,7 @@ jQuery(document).ready(function($){
 				memoxs = xs;
 				memoys = ys;
 			};
-		};	
+		};
 	};//fin fonction mode selection
 
 	function limiteCF(){
@@ -270,15 +270,15 @@ jQuery(document).ready(function($){
 			};
 			memoxsf = xs;
 			memoysf = ys;
-		};	
+		};
 	};//fin limite du curseur en mode déplacement
-	
+
 	function jeu(){
 		$("#DivAbalone").hide();
 		$("#DAok").click(function(){
 			$("#DivAbalone").show();
 			$("#DivMessage").hide();
-			$("#Qui").text("C'est au tour "+qui+".");	
+			$("#Qui").text("C'est au tour "+qui+".");
 		});
 		$("#refresh").click(function(){//recharge le jeu
 			recharger();
@@ -291,7 +291,7 @@ jQuery(document).ready(function($){
 		$("#version2").text("Version: "+version+".");
 		$("#ClavierID").hide();
 		$("#DivClavier2").hide();
-		
+
 		//on pose les billes des joueurs à la position correspondante 3 shémas aléatoires
 		debutBilles();
 		//remplis le tableau des anciens coups du tableau actuel (afin de ne pas faire bugguer le jeu si aucun coup réalisé)
@@ -308,8 +308,8 @@ jQuery(document).ready(function($){
 			$("#helpe").click(function(){
 			if(aideOK==0){
 				aideOK=1;
-				$("#DivHelp").slideUp(300).fadeIn(2000);	
-				//$("#DivHelp").show();	
+				$("#DivHelp").slideUp(300).fadeIn(2000);
+				//$("#DivHelp").show();
 			};
 			$(document).scrollTop(1450);
 		});
@@ -348,7 +348,7 @@ jQuery(document).ready(function($){
 				$(this).text("Non");
 			};
 		});
-		//clavier visuel 
+		//clavier visuel
 		$("#MiniDivKey2").click(function(e){
 			Touche=56;
 			Clav(e);
@@ -356,11 +356,11 @@ jQuery(document).ready(function($){
 		$("#MiniDivKey4").click(function(e){
 			Touche=52;
 			Clav(e);
-		});		
+		});
 		$("#MiniDivKey6").click(function(e){
 			Touche=54;
 			Clav(e);
-		});		
+		});
 		$("#MiniDivKey8").click(function(e){
 			Touche=53;
 			Clav(e);
@@ -368,156 +368,168 @@ jQuery(document).ready(function($){
 		$("#MiniDivKey5").click(function(e){
 			Touche=55;
 			Clav(e);
-		});	
+		});
 		//clavier normal
 		$(window).keypress(function(e){
 			Touche = (e.keyCode);
 			Clav(e);
-		});		
+		});
 	};//fin fonction jeu()
-	
-	
-	
-	
+
+
+
+
 	/*
 		var canvas = document.querySelector('canvas'),
 				ctx = canvas.getContext('2d'),
 				img = new Image(),
-			 
+
 				gCanvas = document.createElement('canvas'),
 				gCtx = gCanvas.getContext('2d');
 				gCanvas.width = canvas.width;
 				gCanvas.height = canvas.height;
-	
+
 	*/
 	var yimg = 31;
 	var ximg = 31;
-	
+
 	var yaff = 31;
 	var xaff = 31;
-		
+
+
+	var imga = new Image();
+	imga.src = './imgs/a.png';
+	var imgb = new Image();
+	imgb.src = './imgs/b.png';
+	var imgc = new Image();
+	imgc.src = './imgs/c.png';
+	var imgd = new Image();
+	imgd.src = './imgs/d.png';
+	var imgp = new Image();
+	imgp.src = './imgs/p.png';
+
 function affichage(){ //affichae d'une [bille ou case]
 
 		//on efface le plateau de jeu
 		//ctx.clearRect(0,0,530,620);
-		
-		
-		//réaffiche le plateau de jeu, axe Y
-		
 
-		
+
+		//réaffiche le plateau de jeu, axe Y
+
+
+
 		//for (y = 31; y<=39; y++){
 		if(yaff<=45){
 			//réaffiche le plateau de jeu, axe X
 			if(xaff<=42){
 			//for (x = 31; x<=39; x++){
-				
-				
-				
+
+
+
 				zaff = xaff + yaff;
-				
+
 				//affecte les modif (si modification) + efface tableau memo
 				if(jmem[xaff][yaff]!=0){;
 					j[xaff][yaff]=jmem[xaff][yaff];
 					jmem[xaff][yaff]=0;
 				};
 				//console.log("test:"+xaff+" "+yaff);
-				
+
 				var ctx = document.getElementById('Plat').getContext('2d');
 				var img = new Image();
-				
+
 				if(zaff>65 && zaff<75){
 
-					
-					
-			
 
-					if(ys==yaff && xs==xaff && mode!=3 && mode!=6){	
+
+
+
+					if(ys==yaff && xs==xaff && mode!=3 && mode!=6){
 						if(mode==1||mode==4){
 							//affiche selecteur mode position
-							if(j[xaff][yaff]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
-							if(j[xaff][yaff]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
-							if(j[xaff][yaff]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
+							if(j[xaff][yaff]==0){img.src = './imgs/p.png';};//img depl
+							if(j[xaff][yaff]==1){img.src = './imgs/p.png';};//img depl
+							if(j[xaff][yaff]==2){img.src = './imgs/p.png';};//img depl
 						};
 						if(mode==2||mode==5){
 							//affiche selecteur mode direction
-							if(j[xaff][yaff]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png';};//pos
-							if(j[xaff][yaff]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png';};//pos
-							if(j[xaff][yaff]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png';};//pos
-						};						
+							if(j[xaff][yaff]==0){img.src = './imgs/d.png';};//pos
+							if(j[xaff][yaff]==1){img.src = './imgs/d.png';};//pos
+							if(j[xaff][yaff]==2){img.src = './imgs/d.png';};//pos
+						};
 					}else{ //cases vides ou joueurs
 						if(((ys==ysd&&xs==xsd)||(mode!=2&&mode!=5))||(x!=xsd||y!=ysd)){
-							if(j[xaff][yaff]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/c.png';};//case vide
-							if(j[xaff][yaff]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/a.png';};//j1
-							if(j[xaff][yaff]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/b.png';};//j2
+							if(j[xaff][yaff]==0){img.src = './imgs/c.png';};//case vide
+							if(j[xaff][yaff]==1){img.src = './imgs/a.png';};//j1
+							if(j[xaff][yaff]==2){img.src = './imgs/b.png';};//j2
 						}else{
-							if(j[xaff][yaff]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
-							if(j[xaff][yaff]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
-							if(j[xaff][yaff]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
+							if(j[xaff][yaff]==0){img.src = './imgs/p.png';};//img depl
+							if(j[xaff][yaff]==1){img.src = './imgs/p.png';};//img depl
+							if(j[xaff][yaff]==2){img.src = './imgs/p.png';};//img depl
 						};
 					};
-							
+
 					img.onload = function() {
-					
+
 						var taille = 42	;
 						var tX=xaff-30;
 						var tY=yaff-30;
-						
-					
+
+
 						//affiche seulement entre 2 axe z (Axes x et y définit par les boucles x et y)
 						if(yaff>=31&&yaff<=39&&xaff>=31&&xaff<=40){
-							
+
 							ctx.clearRect ((tX)*taille, (tY+tX/2)*taille,38,38);
 							ctx.drawImage(img, (tX)*taille, (tY+tX/2)*taille,38,38);
-							
+
 						};
-						
-						
+
+
 
 					};
-				
+
 				};
-				
-				
-				
+
+
+
 				xaff++;
 				if(xaff>42){yaff++;xaff=31};
-				
-				
-				
+
+
+
 			};
 		}else{
 			if(xaff<=45){
 				yaff = 31;
 				xaff = 31;
-			
+
 				console.log("test");
 			};
 		};
 	};
-	
-	
-	
-	
-	
-	
 
 
-	
+
+
+
+
+
+
+
 	// IA (Trés grosse partie), je réunirais les bouts de codes identiques de tous le programme dans une prochaine version d'Abalone)
 
 	function IAfunction(){
 
 		NonModifie = 1;
 		NonModifie2 = 0;
-		
+
 		for(i3=0;i3<=70;i3++){
 			IAxAlea[i3]=0;
 			IAyAlea[i3]=0;
 			AXEAlea[i3]=0;
 			SENSAlea[i3]=0;
 		};
-		
+
 		ValeurMax = 0;
 		i1 = 0;
 		i2 = 0;
@@ -527,11 +539,11 @@ function affichage(){ //affichae d'une [bille ou case]
 				IAverifieCoup[IAx][IAy] = 0;
 			};
 		};
-		
+
 			for(IAmode=0;IAmode<=9;IAmode++){
 				//IAmode=0 --> vérification des coups possibles et des coups à faire
-				//IAmode=1 --> On valorise la bille joueur la plus proche 
-				//IAmode=2 --> et les billes IA sur la limite 
+				//IAmode=1 --> On valorise la bille joueur la plus proche
+				//IAmode=2 --> et les billes IA sur la limite
 				//IAmode=3 --> vérifie si il peut attaquer le joueur ou si il est suseptible de perdre une bille
 				//IAmode=4 --> limite = retire la valeur du déplacement pour UNE BILLE
 				//IAmode=5 --> cherche le coup le plus fort, sinon un coup au hasard (1ere étape)
@@ -543,17 +555,17 @@ function affichage(){ //affichae d'une [bille ou case]
 					for(IAx=30;IAx<=40;IAx++){
 						IAz = IAx + IAy;
 						if(j[IAx][IAy]==JoueurA||j[IAx][IAy]==JoueurB){//si bille
-						
+
 							for(SENS=(-1);SENS<=1;SENS+=2){
 								for(AXE=0;AXE<=2;AXE++){
-									
+
 									// quel joueur ?
 									JoueurA=1;JoueurB=2;
 									IAaxe();//L'axe en question est copier en entier dans la matrice k()
-									
+
 									//vérification des coups possibles et des coups à faire
-									if(IAmode==0){					
-										IA[IAx][IAy][AXE][SENS]=0; //"vide" le tableau des coups possibles					
+									if(IAmode==0){
+										IA[IAx][IAy][AXE][SENS]=0; //"vide" le tableau des coups possibles
 										IAcoupPossible = 0;
 										IAcoupPossibl(); // sort IAcoupPossible = 0 ou 1.
 										if(IAcoupPossible == 1){
@@ -561,14 +573,14 @@ function affichage(){ //affichae d'une [bille ou case]
 											/***/IA[IAx][IAy][AXE][SENS]=1+Math.trunc(getRandomArbitrary(0,1.22));
 										};
 										IAverifieCoup[IAx][IAy] = j[IAx][IAy];
-									};		
-									
+									};
+
 									//On valorise la bille joueur la plus proche (c'est une méthode pour que l'IA ne sorte pas du plateau tous seul)
-									//valorise également les billes IA sur la limite 
+									//valorise également les billes IA sur la limite
 									if(IAmode==1){
 										//console.log("ok");
 										NonModifie = 1;
-										if(IA[IAx][IAy][AXE][SENS]==1){ 
+										if(IA[IAx][IAy][AXE][SENS]==1){
 											if(j[IAx][IAy]==JoueurA){
 												distance = 100;
 												//console.log("test");
@@ -576,8 +588,8 @@ function affichage(){ //affichae d'une [bille ou case]
 												for(IAy2=30;IAy2<=40;IAy2++){
 													for(IAx2=30;IAx2<=40;IAx2++){
 														if(j[IAx2][IAy2]==JoueurB){//joueur
-															if( ( Math.abs(IAy2-IAy) * Math.abs(IAx2-IAx) ) <distance){	
-																memoIAx = IAx2; //valeurs mémorisé position de la bille Non-IA la plus proche 
+															if( ( Math.abs(IAy2-IAy) * Math.abs(IAx2-IAx) ) <distance){
+																memoIAx = IAx2; //valeurs mémorisé position de la bille Non-IA la plus proche
 																memoIAy = IAy2;
 																distance = ( Math.abs(IAy2-IAy) * Math.abs(IAx2-IAx) );
 															};
@@ -610,64 +622,64 @@ function affichage(){ //affichae d'une [bille ou case]
 													AXE2 = 2;
 													SENS2 = -1
 												};
-												/***/IA[IAx][IAy][AXE2][SENS2]+=1;										
-											}; // fin si boule IA 
+												/***/IA[IAx][IAy][AXE2][SENS2]+=1;
+											}; // fin si boule IA
 										};
 									};
 									if(IAmode==2){
-								
+
 										if ((IAy==31&&IAx>=35&&IAx<=39)||(IAy==39&&IAx<=35&&IAx>=31)||(IAx==31&&IAy>=35&&IAy<=39)||(IAx==39&&IAy<=35&&IAy>=31)||(IAz<=66||IAz>=74)){
 											if(j[IAx][IAy]==JoueurA){
 												//vérifie | oxx
 												if(k[axeV]==JoueurA && k[axeV+1*SENS]==JoueurB && k[axeV+2*SENS]==JoueurB&&k[axeV-1*SENS]==0){
 													/***/IA[IAx][IAy][AXE][SENS]+=2;
-												}; 
+												};
 												//vérifie | ooxxx
 												if(k[axeV]==JoueurA && k[axeV+1*SENS]==JoueurA && k[axeV+2*SENS]==JoueurB && k[axeV+3*SENS]==JoueurB && k[axeV+4*SENS]==JoueurB&&k[axeV-1*SENS]==0){
 													/***/IA[IAx][IAy][AXE][SENS]+=2;
-												};	
-												/***/IA[IAx][IAy][AXE][SENS]+=1;						
-											};//fin si boule ennemi IA	
+												};
+												/***/IA[IAx][IAy][AXE][SENS]+=1;
+											};//fin si boule ennemi IA
 										};// fin si au bord de l'hexagone
 									};
 									if(IAmode==3){
-										
-										//if(IA[IAx][IAy][AXE][SENS]>0){ 
+
+										//if(IA[IAx][IAy][AXE][SENS]>0){
 										////// PEUT ATTAQUER ----- (attaques nous sommes au bord)
 											//if ((IAy==31&&IAx>=35&&IAx<=39)||(IAy==39&&IAx<=35&&IAx>=31)||(IAx==31&&IAy>=35&&IAy<=39)||(IAx==39&&IAy<=35&&IAy>=31)||(IAz<=66||IAz>=74)){
 												if(j[IAx][IAy]==JoueurA){
-													
+
 													//vérifie | oxx
-													if(k[axeV+1*SENS]==JoueurA && k[axeV+2*SENS]==JoueurB&&k[axeV+3*SENS]==0){	
+													if(k[axeV+1*SENS]==JoueurA && k[axeV+2*SENS]==JoueurB&&k[axeV+3*SENS]==0){
 														/***///Attr1JoueurA();
 														IA[IAx][IAy][AXE][SENS]+=90;
-													}; 		
+													};
 													//vérifie | ooxxx
 													if(k[axeV+1*SENS]==JoueurA && k[axeV+2*SENS]==JoueurA && k[axeV+3*SENS]==JoueurB && k[axeV+4*SENS]==JoueurB&&k[axeV+5*SENS]==0){
 														/***///Attr2JoueurA();
 														IA[IAx][IAy][AXE][SENS]+=90;
-													};		
+													};
 													//if(IA[IAx][IAy][AXE][SENS]>50){console.log(IA[IAx][IAy][AXE][SENS]+" "+IAx+" "+IAy+" "+AXE+" "+SENS)};
 												};
 												/*if(j[IAx][IAy]==JoueurB){
-													
+
 													//vérifie | oxx
-													if(k[axeV]==JoueurB && k[axeV+1*SENS]==JoueurA && k[axeV+2*SENS]==JoueurA&&k[axeV-1*SENS]==0){	
+													if(k[axeV]==JoueurB && k[axeV+1*SENS]==JoueurA && k[axeV+2*SENS]==JoueurA&&k[axeV-1*SENS]==0){
 														Attr1JoueurA();
 														//IA[IAx][IAy][AXE][SENS]+=40;
-													}; 		
+													};
 													//vérifie | ooxxx
 													if(k[axeV]==JoueurB && k[axeV+1*SENS]==JoueurB && k[axeV+2*SENS]==JoueurA && k[axeV+3*SENS]==JoueurA && k[axeV+4*SENS]==JoueurA&&k[axeV-1*SENS]==0){
 														Attr2JoueurA();
 														//IA[IAx][IAy][AXE][SENS]+=40;
-													};		
+													};
 												};*/
 											//};
 											////// EST ATTAQUé -----
 											//if ((IAy==31&&IAx>=35&&IAx<=39)||(IAy==39&&IAx<=35&&IAx>=31)||(IAx==31&&IAy>=35&&IAy<=39)||(IAx==39&&IAy<=35&&IAy>=31)||(IAz<=66||IAz>=74)){
 												if(j[IAx][IAy]==JoueurA){
 													//vérifie | oxx
-													if(k[axeV]==JoueurA && k[axeV+1*SENS]==JoueurB && k[axeV+2*SENS]==JoueurB&&k[axeV-1*SENS]==0){		
+													if(k[axeV]==JoueurA && k[axeV+1*SENS]==JoueurB && k[axeV+2*SENS]==JoueurB&&k[axeV-1*SENS]==0){
 														chercheAxe = AXE;
 														if(chercheAxe==0){//position a droite ou a gauche _ SI POSSIBLE /!\/
 															/***/if(IA[IAx][IAy][AXE+2][SENS]>0){IA[IAx][IAy][AXE+2][SENS]+=50};
@@ -687,7 +699,7 @@ function affichage(){ //affichae d'une [bille ou case]
 															/***/if(IA[IAx][IAy][AXE-1][-SENS]>0){IA[IAx][IAy][AXE-1][-SENS]+=50};
 															/***/if(IA[IAx][IAy][AXE-2][-SENS]>0){IA[IAx][IAy][AXE-2][-SENS]+=50};
 														};
-													}; 						
+													};
 													//vérifie | ooxxx
 													if(k[axeV]==JoueurA && k[axeV+1*SENS]==JoueurA && k[axeV+2*SENS]==JoueurB && k[axeV+3*SENS]==JoueurB && k[axeV+4*SENS]==JoueurB&&k[axeV-1*SENS]==0){
 														chercheAxe = AXE;
@@ -709,20 +721,20 @@ function affichage(){ //affichae d'une [bille ou case]
 															/***/if(IA[IAx][IAy][AXE-1][-SENS]>0){IA[IAx][IAy][AXE-1][-SENS]+=50};
 															/***/if(IA[IAx][IAy][AXE-2][-SENS]>0){IA[IAx][IAy][AXE-2][-SENS]+=50};
 														};
-													};	
-												};//fin si boule ennemi IA					
+													};
+												};//fin si boule ennemi IA
 											//};// fin si au bord de l'hexagone
 										//};
 									};
 									if(IAmode==4){
-										
+
 										//limite = retire la valeur du déplacement pour UNE BILLE
-									
+
 										/*if(IA[IAx][IAy][AXE][SENS]>15){
 											console.log(IA[IAx][IAy][AXE][SENS]+"  "+IAx+" "+IAy+" "+AXE+" "+SENS);
 										};*/
-										
-										if(IAz <= 66){//  
+
+										if(IAz <= 66){//
 											if(SENS==-1){
 												if(AXE==0||AXE==1){
 													IA[IAx][IAy][AXE][SENS]=0;//console.log("1");
@@ -774,9 +786,9 @@ function affichage(){ //affichae d'une [bille ou case]
 												};
 											};
 										};
-										
+
 										//limite = retire la valeur du déplacement pour 2 BILLES
-										
+
 										if(IAz <= 66+2){//  .
 											if(SENS==-1){
 												if(AXE==0||AXE==1){
@@ -845,10 +857,10 @@ function affichage(){ //affichae d'une [bille ou case]
 												};
 											};
 										};
-										
-										
+
+
 										//limite = retire la valeur du déplacement pour 3 BILLES !!!
-										
+
 										if(IAz <= 66+4){//  .
 											if(SENS==-1){
 												if(AXE==0||AXE==1){
@@ -933,7 +945,7 @@ function affichage(){ //affichae d'une [bille ou case]
 												};
 											};
 										};
-										
+
 									};
 									//cherche le coup le plus fort, sinon un coup au hasard
 									if(NonModifie2 == 0){
@@ -953,14 +965,14 @@ function affichage(){ //affichae d'une [bille ou case]
 												i1+=1;
 											};
 										};
-										if(IAmode==7){		
+										if(IAmode==7){
 											if(IA[IAx][IAy][AXE][SENS]==ValeurMax){
 												i2=Math.trunc(getRandomArbitrary(0,i1+1))
 												IAxFinal=IAxAlea[i2];
 												IAyFinal=IAyAlea[i2];
-												AXEFinal=AXEAlea[i2];	
-												SENSFinal=SENSAlea[i2];	
-												//console.log("-");														
+												AXEFinal=AXEAlea[i2];
+												SENSFinal=SENSAlea[i2];
+												//console.log("-");
 											};
 										};
 									};
@@ -974,24 +986,24 @@ function affichage(){ //affichae d'une [bille ou case]
 												i1+=1;
 											};
 										};
-										if(IAmode==7){		
+										if(IAmode==7){
 											if(IA[IAx][IAy][AXE][SENS]>0){
 												i2=Math.trunc(getRandomArbitrary(0,i1))
 												IAxFinal=IAxAlea[i2];
 												IAyFinal=IAyAlea[i2];
-												AXEFinal=AXEAlea[i2];	
-												SENSFinal=SENSAlea[i2];	
-												//console.log("-");														
+												AXEFinal=AXEAlea[i2];
+												SENSFinal=SENSAlea[i2];
+												//console.log("-");
 											};
 										};
 									};
-									
+
 									if(IAmode==8){//execute le deplacement et vérifie si déplacé
 										kIn();
 										IAdeplacement();
 										kOut();
 										if(IAverifieCoup[IAx][IAy]!=j[IAx][IAy]){Vtest=1};//si cases différentes alors 1
-										if(Vtest==1){// si 
+										if(Vtest==1){// si
 											//IAmode=0;
 											Vtest=0;
 											NonModifie = 0;
@@ -1009,7 +1021,7 @@ function affichage(){ //affichae d'une [bille ou case]
 											//onsole.log(NonModifie2);
 										};
 									};
-									
+
 								};//Axe
 							};//Sens
 						};//Bille?
@@ -1017,11 +1029,11 @@ function affichage(){ //affichae d'une [bille ou case]
 				};//IAy
 			};//IAmode
 		//}while(Vtest==1);
-		
+
 		NvCoup();
-		
-		//Passage du tour au joueur 
-		
+
+		//Passage du tour au joueur
+
 		$("#arrow1").children().remove();
 		$("#arrow2").append("<img src='imgs\\arrow.png' />");
 		nombreCoup();
@@ -1029,20 +1041,20 @@ function affichage(){ //affichae d'une [bille ou case]
 		$("#j1").text(j1);
 		$("#j2").text(j2);
 		mode = 4;
-		
+
 	};//fin fonction IAfunction
 
 	function IAcoupPossibl(){ //sort IAcoupPossible = 1 si le coup est possible
 
-		ps = 0; //variable passage de condition 
+		ps = 0; //variable passage de condition
 
 		if(k[axeV]==0){ps=1;};
 		if(k[axeV]==JoueurB){ps=1;};
 		if(k[axeV]==JoueurA){
 			if(k[axeV + 1 * SENS] == 0){
-				//k[axeV] = 0;k[axeV + 1 * SENS] = JoueurA; 
+				//k[axeV] = 0;k[axeV + 1 * SENS] = JoueurA;
 				IAcoupPossible = 1;
-				ps=1; 
+				ps=1;
 			};
 			//A
 			if(k[axeV + 1 * SENS] == JoueurB&&ps==0){ps=1;};
@@ -1057,34 +1069,34 @@ function affichage(){ //affichae d'une [bille ou case]
 				if(k[axeV + 2 * SENS] == JoueurB&&ps==0){
 					//AAA
 					if(k[axeV + 3 * SENS] == 0&&ps==0){
-						//k[axeV] = 0; k[axeV + 1 * SENS] = JoueurA; k[axeV + 2 * SENS] = JoueurA; k[axeV + 3 * SENS] = JoueurB; 
+						//k[axeV] = 0; k[axeV + 1 * SENS] = JoueurA; k[axeV + 2 * SENS] = JoueurA; k[axeV + 3 * SENS] = JoueurB;
 						IAcoupPossible = 1;
 						ps=1;
 					};
 					if( k[axeV + 3 * SENS] == JoueurB&&ps==0){ps=1;};
 					if( k[axeV + 3 * SENS] == JoueurA&&ps==0){ps=1;};
-						
+
 				};
 				if(k[axeV + 2 * SENS] == JoueurA&&ps==0){
 					//AAB
 					if(k[axeV + 3 * SENS] == 0&&ps==0){
-						//k[axeV] = 0; k[axeV + 1 * SENS] = JoueurA; k[axeV + 2 * SENS] = JoueurA; k[axeV + 3 * SENS] = JoueurA; 
+						//k[axeV] = 0; k[axeV + 1 * SENS] = JoueurA; k[axeV + 2 * SENS] = JoueurA; k[axeV + 3 * SENS] = JoueurA;
 						IAcoupPossible = 1;
 						ps=1;
-						
+
 					};
 					if(k[axeV + 3 * SENS] == JoueurB&&ps==0){
 						if(k[axeV + 3 * SENS] == JoueurA &&ps==0){ps=1;}
 						//AABA
 						if(k[axeV + 4 * SENS] == 0&&ps==0){
-							//k[axeV] = 0; k[axeV + 1 * SENS] = JoueurA; k[axeV + 2 * SENS] = JoueurA; k[axeV + 3 * SENS] = JoueurA; k[axeV + 4 * SENS] = JoueurB; 
+							//k[axeV] = 0; k[axeV + 1 * SENS] = JoueurA; k[axeV + 2 * SENS] = JoueurA; k[axeV + 3 * SENS] = JoueurA; k[axeV + 4 * SENS] = JoueurB;
 							IAcoupPossible = 1;
 							ps=1;
 						};
 						if( k[axeV + 4 * SENS] == JoueurB &&ps==0){
 							//AABAA
 							if(k[axeV + 5 * SENS] == 0 &&ps==0){
-								//k[axeV] = 0; k[axeV + 1 * SENS] = JoueurA; k[axeV + 2 * SENS] = JoueurA; k[axeV + 3 * SENS] = JoueurA; k[axeV + 4 * SENS] = JoueurB; k[axeV + 5 * SENS] = JoueurB; 
+								//k[axeV] = 0; k[axeV + 1 * SENS] = JoueurA; k[axeV + 2 * SENS] = JoueurA; k[axeV + 3 * SENS] = JoueurA; k[axeV + 4 * SENS] = JoueurB; k[axeV + 5 * SENS] = JoueurB;
 								IAcoupPossible = 1;
 								ps=1;
 							};
@@ -1097,19 +1109,19 @@ function affichage(){ //affichae d'une [bille ou case]
 			};
 		};
 
-		ps = 0;								
-		
+		ps = 0;
+
 	};//fin coup possibles IA
 
 	function IAaxe(){
 		//L'axe en question du jeu est copier en entier dans la matrice k() POUR LA BOUCLE PRINCIPAL
-		
+
 		if(AXE == 0){
 			for(var w = 1; w < 50; w++){
 				k[w] = j[w][IAy];
 			};
 			axeV = IAx;
-		};					
+		};
 		if(AXE == 1){
 			for(var w = 1; w < 50; w++){
 				k[w] = j[IAx][w];
@@ -1136,7 +1148,7 @@ function affichage(){ //affichae d'une [bille ou case]
 				k[w] = j[w][IAyFinal];
 			};
 			axeV = IAxFinal;
-		};					
+		};
 		if(AXEFinal == 1){
 			for(var w = 1; w < 50; w++){
 				k[w] = j[IAxFinal][w];
@@ -1156,10 +1168,10 @@ function affichage(){ //affichae d'une [bille ou case]
 	};
 
 	function IAdeplacement(){
-		
-		//'DEPLACEMENT DES PIONS DANS LA MATRICE K() ou non			
+
+		//'DEPLACEMENT DES PIONS DANS LA MATRICE K() ou non
 		ps = 0; //variable passage de condition
-		
+
 		if(k[axeV]==0){ps=1};
 		if(k[axeV]==JoueurB){ps=1};
 		if(k[axeV]==JoueurA){
@@ -1181,14 +1193,14 @@ function affichage(){ //affichae d'une [bille ou case]
 					};
 					if( k[axeV + 3 * SENSFinal] == JoueurB&&ps==0){ps=1};
 					if( k[axeV + 3 * SENSFinal] == JoueurA&&ps==0){ps=1};
-						
+
 				};
 				if(k[axeV + 2 * SENSFinal] == JoueurA&&ps==0){
 					//AAB
 					//.log("YOLO");
 					if(k[axeV + 3 * SENSFinal] == 0&&ps==0){
 						k[axeV] = 0; k[axeV + 1 * SENSFinal] = JoueurA; k[axeV + 2 * SENSFinal] = JoueurA; k[axeV + 3 * SENSFinal] = JoueurA; ps=1;
-						
+
 					};
 					if(k[axeV + 3 * SENSFinal] == JoueurB&&ps==0){
 						//AABA
@@ -1209,7 +1221,7 @@ function affichage(){ //affichae d'une [bille ou case]
 				};
 			};
 		};
-		
+
 		ps = 0;
 	};
 
@@ -1218,7 +1230,7 @@ function affichage(){ //affichae d'une [bille ou case]
 			for(var w = 1; w < 50; w++){
 				j[w][IAyFinal] = k[w];
 			};
-		};					
+		};
 		if(AXEFinal == 1){
 			for(var w = 1; w < 50; w++){
 				j[IAxFinal][w] = k[w];
@@ -1254,7 +1266,7 @@ function affichage(){ //affichae d'une [bille ou case]
 		var verifieFin = 0;
 		//vérifie si 2 tableaux identiques  (=fin du tableau)
 		for(x=0; x<=70; x++){
-			for(y=0; y<=70; y++){ 
+			for(y=0; y<=70; y++){
 				if(MJ[x][y][0]==MJ[x][y][1]){verifieFin += 1};
 			};
 		};
@@ -1313,7 +1325,7 @@ function affichage(){ //affichae d'une [bille ou case]
 			case 5:
 				clr1 = "#cdcdcd";
 				clr2 = "#4B0082";
-				break;				
+				break;
 			case 8:
 				clr1 = "#BDB76B";
 				clr2 = "#556B2F";
@@ -1354,15 +1366,15 @@ function affichage(){ //affichae d'une [bille ou case]
 			//Cherche hors de la limite si bille
 			for (yy=25;yy<=45;yy++){
 				for (xx=25;xx<=45;xx++){
-					zz = xx + yy;    
+					zz = xx + yy;
 					//Axe x, y & z
 					if(xx < 31 || xx > 39 || yy < 31 || yy > 39 || zz < 66 || zz > 74){
 						//retire bille et ajoute les points
 						if(j[xx][yy]==1){j[xx][yy]=0;j1-=1;};
 						if(j[xx][yy]==2){j[xx][yy]=0;j2-=1;};
 						//change le titre de la page
-						$("#titrePage").text("ABALONE "+version+" - "+Ttstate+" - "+j2+"/"+	j1);				
-					};	
+						$("#titrePage").text("ABALONE "+version+" - "+Ttstate+" - "+j2+"/"+	j1);
+					};
 				};
 			};
 			//affiche le nouveau score
@@ -1378,9 +1390,9 @@ function affichage(){ //affichae d'une [bille ou case]
 			//Cherche hors de la limite si bille
 			for (yy=25;yy<=45;yy++){
 				for (xx=25;xx<=45;xx++){
-					zz = xx + yy;    
+					zz = xx + yy;
 					//Axe x, y & z
-					if(xx < 31 || xx > 39 || yy < 31 || yy > 39 || zz < 66 || zz > 74){	
+					if(xx < 31 || xx > 39 || yy < 31 || yy > 39 || zz < 66 || zz > 74){
 						//retire bille et ajoute les points
 						if(j[xx][yy]==1){j[xx][yy]=0;j1-=1;};
 						if(j[xx][yy]==2){j[xx][yy]=0;j2-=1;};
@@ -1405,13 +1417,13 @@ function affichage(){ //affichae d'une [bille ou case]
 			$("#nmbcoup").text("Coups: "+nCoup);
 		};
 		//enregistre/lit position selecteur pour chaque joueur
-		
+
 		if(mode==3||mode==10){//passe au joueur bille noir (1)
 			if(NombreJoueurs == 2){
 				xsmemjr2 = xs;
 				ysmemjr2 = ys;
 				xs = xsmemjr1;
-				ys = ysmemjr1;		
+				ys = ysmemjr1;
 				/*xs <- xs Xor xsmemjr1
 				xsmemjr1 <- xsmemjr1 Xor xs
 				xs <- xs Xor xsmemjr1*/
@@ -1431,9 +1443,9 @@ function affichage(){ //affichae d'une [bille ou case]
 			};
 		};
 		$("#Qui").text("C'est au tour "+qui+".");
-	
+
 	};
-	
+
 	function nombreCoupDecr(){//decrémente le nombre de coup lors d'un retour arriere
 		nCoup = nCoup - 1;
 		$("#nmbcoup").text(nCoup);
@@ -1441,11 +1453,11 @@ function affichage(){ //affichae d'une [bille ou case]
 	};
 
 	function debutBilles(){
-		
+
 		var JoueurAlea = Math.trunc(getRandomArbitrary(0, 3)); //Shémas
 		var JoueurAleaS = Math.trunc(getRandomArbitrary(0, 2)); //billes Noires ou Blanches
 		if(JoueurAleaS==0){JoueurAleaA = 1;JoueurAleaB = 2;}else{JoueurAleaA = 2;JoueurAleaB = 1;};
-		
+
 		if(JoueurAlea==0){
 		//shemas 1
 		j[35][31]=JoueurAleaB;j[36][31]=JoueurAleaB;j[37][31]=JoueurAleaB;j[38][31]=JoueurAleaB;j[39][31]=JoueurAleaB;
@@ -1455,7 +1467,7 @@ function affichage(){ //affichae d'une [bille ou case]
 		j[34][38]=JoueurAleaA;j[35][38]=JoueurAleaA;j[36][38]=JoueurAleaA;j[33][38]=JoueurAleaA;j[32][38]=JoueurAleaA;j[31][38]=JoueurAleaA;
 		j[35][37]=JoueurAleaA;j[34][37]=JoueurAleaA;j[33][37]=JoueurAleaA;
 		};
-		
+
 		if(JoueurAlea==1){
 		//shemas 2
 		j[31][35]=JoueurAleaB;j[31][36]=JoueurAleaB;j[31][37]=JoueurAleaB;j[31][38]=JoueurAleaB;j[31][39]=JoueurAleaB;
@@ -1465,7 +1477,7 @@ function affichage(){ //affichae d'une [bille ou case]
 		j[38][31]=JoueurAleaA;j[38][32]=JoueurAleaA;j[38][33]=JoueurAleaA;j[38][34]=JoueurAleaA;j[38][35]=JoueurAleaA;j[38][36]=JoueurAleaA;
 		j[37][34]=JoueurAleaA;j[37][35]=JoueurAleaA;j[37][33]=JoueurAleaA;
 		};
-		
+
 		if(JoueurAlea==2){
 		//shemas 3
 		j[35][31]=JoueurAleaA;j[34][32]=JoueurAleaA;j[33][33]=JoueurAleaA;j[32][34]=JoueurAleaA;j[31][35]=JoueurAleaA;
@@ -1475,7 +1487,7 @@ function affichage(){ //affichae d'une [bille ou case]
 		j[35][38]=JoueurAleaB;j[36][37]=JoueurAleaB;j[37][36]=JoueurAleaB;j[38][35]=JoueurAleaB;j[39][34]=JoueurAleaB;j[34][39]=JoueurAleaB;
 		j[37][35]=JoueurAleaB;j[35][37]=JoueurAleaB;j[36][36]=JoueurAleaB;
 		};
-		
+
 	};
 
 	function Clav(e){
@@ -1485,12 +1497,12 @@ function affichage(){ //affichae d'une [bille ou case]
 		if(Touche==115||Touche==53){ys+=1;};//s
 		//.log("ToucheID:"+Touche);
 		//.log("Mode:"+mode);
-		
+
 		if(Touche==48||Touche==98||Touche==55){
-			
-			timerScroll = timeTimerScroll; 
+
+			timerScroll = timeTimerScroll;
 			$(document).scrollTop(0);
-			
+
 			if(mode==1||mode==4){
 									//Touche=0; .log("test1");
 				if(mode==1&&j[xs][ys]==1){ //si case joueur 1 selectionné
@@ -1508,25 +1520,25 @@ function affichage(){ //affichae d'une [bille ou case]
 
 			};
 		};
-		
+
 		//Condition Touche==32||Touche==48||Touche==98||Touche==98, 2eme fois pour sortir de la condition.
 		if(Touche==48||Touche==98||Touche==55){
 			//valide position final
 			if(mode==2||mode==5){
-			
+
 				//si meme case que position depart, alors retour mode précédent
 				if(xs == xsd && ys == ysd){
 					mode -= 1;
 				}
 				else //sinon on vérifie si le coup est possible !
 				{
-					
+
 					xsf = xs;
 					ysf = ys;
-					
+
 					SENS = 1 //1=positif ; -1=negatif
 					AXE = 0 //'0=x; 1=y; 2=z
-					
+
 					//cherche l'axe et le sens par rapport a la selection utilisateur
 					if (ysf==ysd){
 						AXE = 0;
@@ -1537,29 +1549,29 @@ function affichage(){ //affichae d'une [bille ou case]
 						if(ysf - ysd > 0 ){SENS = 1;}else{SENS = -1;};
 					};
 					if (xsf+ysf==xsd+ysd){
-						
+
 						if(xsf + ysf == xsd + ysd){
 							AXE = 2;
-							
+
 							if((xsf + ysf) - (xsd + ysd) > 0){
 								SENS = 1;
 							}else{
 								if(ysf - ysd > 0){SENS = 1;}else{SENS = -1;}
 							};
 						};
-						
+
 					};
-					
+
 					// quel joueur ?
 					if(mode==2){JoueurA=1;JoueurB=2;}else{JoueurB=1;JoueurA=2;}
-					
+
 					//L'axe est copier en entier dans la matrice k()
 					if(AXE == 0){
 						for(var w = 1; w < 50; w++){
 							k[w] = j[w][ysd];
 						};
 						axeV = xsd;
-					};					
+					};
 					if(AXE == 1){
 						for(var w = 1; w < 50; w++){
 							k[w] = j[xsd][w];
@@ -1576,11 +1588,11 @@ function affichage(){ //affichae d'une [bille ou case]
 						};
 						axeV = ysd;
 					};
-					
+
 					//'DEPLACEMENT DES PIONS DANS LA MATRICE K() ou non
-					
+
 					ps = 0; //variable passage de condition
-					
+
 					if(k[axeV]==0){mode-=1};
 					if(k[axeV]==JoueurB){mode-=1};
 					if(k[axeV]==JoueurA){
@@ -1602,14 +1614,14 @@ function affichage(){ //affichae d'une [bille ou case]
 								};
 								if( k[axeV + 3 * SENS] == JoueurB&&ps==0){mode = mode - 1};
 								if( k[axeV + 3 * SENS] == JoueurA&&ps==0){mode = mode - 1};
-									
+
 							};
 							if(k[axeV + 2 * SENS] == JoueurA&&ps==0){
 								//AAB
 								//.log("YOLO");
 								if(k[axeV + 3 * SENS] == 0&&ps==0){
 									k[axeV] = 0; k[axeV + 1 * SENS] = JoueurA; k[axeV + 2 * SENS] = JoueurA; k[axeV + 3 * SENS] = JoueurA; mode = mode + 1; ps=1;
-									
+
 								};
 								if(k[axeV + 3 * SENS] == JoueurB&&ps==0){
 									//AABA
@@ -1630,16 +1642,16 @@ function affichage(){ //affichae d'une [bille ou case]
 							};
 						};
 					};
-					
+
 					ps = 0;
-					
-					//'La matrice k() est recopier en retour dans l'axe du jeu en question  
+
+					//'La matrice k() est recopier en retour dans l'axe du jeu en question
 					if(AXE == 0){
 						for(var w = 1; w < 50; w++){
 							j[w][ysd] = k[w];
 						};
 						axeV = xsd;
-					};					
+					};
 					if(AXE == 1){
 						for(var w = 1; w < 50; w++){
 							j[xsd][w] = k[w];
@@ -1656,11 +1668,11 @@ function affichage(){ //affichae d'une [bille ou case]
 						};
 						axeV = ysd;
 					};
-					
+
 				};
-			
+
 			};
-			
+
 		};
 
 	};
@@ -1686,7 +1698,7 @@ function affichage(){ //affichae d'une [bille ou case]
 			};
 		};
 		$("#nmbcoup").text("Coup: "+nCoup);
-		
+
 		for(var i1=0; i1<=70; i1++){
 			IAxAlea[i1]=0;
 			IAyAlea[i1]=0;
@@ -1696,16 +1708,16 @@ function affichage(){ //affichae d'une [bille ou case]
 		$("#arrow1").children().remove();
 		$("#arrow2").children().remove();
 		$("#arrow2").append("<img src='imgs\\arrow.png' />");
-		
+
 		$("#j1").text(j1);
 		$("#j2").text(j2);
-		
+
 		xsmemjr1=35;
 		ysmemjr1=35;
 		xsmemjr2=35;
 		ysmemjr2=35;
-			
-		debutBilles();	
+
+		debutBilles();
 		/*for(x=0; x<=70; x++){
 			for(var i5 = 0; i5 <= 50 ; i5++){
 				if(i5!=0){MJ[x][y][i5]=j[x][y]};
@@ -1713,10 +1725,5 @@ function affichage(){ //affichae d'une [bille ou case]
 		};*/
 
 	};
-	
+
 });
-			
-			
-			
-			
-			
