@@ -180,7 +180,7 @@ jQuery(document).ready(function($){
 	};
 
 	// fonction Frames en boucle
-	setInterval(Frames,1);
+	setInterval(Frames,60);
 	
 	jeu(); //clavier, commandes utilisateurs, vérifications et changement des positions des cases joueurs
 	
@@ -390,13 +390,9 @@ jQuery(document).ready(function($){
 				gCanvas.height = canvas.height;
 	
 	*/
-	var yimg = 31;
-	var ximg = 31;
+
 	
-	var yaff = 31;
-	var xaff = 31;
-		
-function affichage(){ //affichae d'une [bille ou case]
+	function affichage(){ //affichae d'une [bille ou case]
 
 		//on efface le plateau de jeu
 		//ctx.clearRect(0,0,530,620);
@@ -404,101 +400,68 @@ function affichage(){ //affichae d'une [bille ou case]
 		
 		//réaffiche le plateau de jeu, axe Y
 		
-
+		y = 31;
+		x = 31;
 		
-		//for (y = 31; y<=39; y++){
-		if(yaff<=45){
+		for (y = 31; y<=39; y++){
 			//réaffiche le plateau de jeu, axe X
-			if(xaff<=42){
-			//for (x = 31; x<=39; x++){
+			for (x = 31; x<=39; x++){
 				
-				
-				
-				zaff = xaff + yaff;
+				z = x + y;
 				
 				//affecte les modif (si modification) + efface tableau memo
-				if(jmem[xaff][yaff]!=0){;
-					j[xaff][yaff]=jmem[xaff][yaff];
-					jmem[xaff][yaff]=0;
+				if(jmem[x][y]!=0){;
+					j[x][y]=jmem[x][y];
+					jmem[x][y]=0;
 				};
-				//console.log("test:"+xaff+" "+yaff);
 				
-				var ctx = document.getElementById('Plat').getContext('2d');
-				var img = new Image();
+				//affiche seulement entre 2 axe z (Axes x et y définit par les boucles x et y)
+				if(z>65 && z<75){
+
+
 				
-				if(zaff>65 && zaff<75){
+					var ctx = document.getElementById('Plat').getContext('2d');
+					var img = new Image();
 
+					img.onload = function() {
 					
-					
-			
+						var taille = 10	;
+						var tX=x-30;
+						var tY=y-30;
+						ctx.drawImage(img, (tX)*taille, (tY)*taille);
+						console.log(x+" "+y);
 
-					if(ys==yaff && xs==xaff && mode!=3 && mode!=6){	
+					};
+					
+					if(ys==y && xs==x && mode!=3 && mode!=6){	
 						if(mode==1||mode==4){
 							//affiche selecteur mode position
-							if(j[xaff][yaff]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
-							if(j[xaff][yaff]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
-							if(j[xaff][yaff]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
+							if(j[x][y]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
+							if(j[x][y]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
+							if(j[x][y]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
 						};
 						if(mode==2||mode==5){
 							//affiche selecteur mode direction
-							if(j[xaff][yaff]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png';};//pos
-							if(j[xaff][yaff]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png';};//pos
-							if(j[xaff][yaff]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png';};//pos
+							if(j[x][y]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png';};//pos
+							if(j[x][y]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png';};//pos
+							if(j[x][y]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png';};//pos
 						};						
 					}else{ //cases vides ou joueurs
 						if(((ys==ysd&&xs==xsd)||(mode!=2&&mode!=5))||(x!=xsd||y!=ysd)){
-							if(j[xaff][yaff]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/c.png';};//case vide
-							if(j[xaff][yaff]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/a.png';};//j1
-							if(j[xaff][yaff]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/b.png';};//j2
+							if(j[x][y]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/c.png';};//case vide
+							if(j[x][y]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/a.png';};//j1
+							if(j[x][y]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/b.png';};//j2
 						}else{
-							if(j[xaff][yaff]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
-							if(j[xaff][yaff]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
-							if(j[xaff][yaff]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
+							if(j[x][y]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
+							if(j[x][y]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
+							if(j[x][y]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
 						};
 					};
-							
-					img.onload = function() {
-					
-						var taille = 42	;
-						var tX=xaff-30;
-						var tY=yaff-30;
-						
-					
-						//affiche seulement entre 2 axe z (Axes x et y définit par les boucles x et y)
-						if(yaff>=31&&yaff<=39&&xaff>=31&&xaff<=40){
-							
-							ctx.clearRect ((tX)*taille, (tY+tX/2)*taille,38,38);
-							ctx.drawImage(img, (tX)*taille, (tY+tX/2)*taille,38,38);
-							
-						};
-						
-						
-
-					};
 				
-				};
-				
-				
-				
-				xaff++;
-				if(xaff>42){yaff++;xaff=31};
-				
-				
-				
-			};
-		}else{
-			if(xaff<=45){
-				yaff = 31;
-				xaff = 31;
-			
-				console.log("test");
+				};	
 			};
 		};
 	};
-	
-	
-	
-	
 	
 	
 

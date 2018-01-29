@@ -1,6 +1,9 @@
+//import Mode0 from './states/Mode0';
+
+
 jQuery(document).ready(function($){
 	
-	var version = "1.0";
+	var version = "1.1";
 	
 	console.log("Abalone - Version: "+version+" - CASTAING Alexandre");
 	
@@ -180,7 +183,7 @@ jQuery(document).ready(function($){
 	};
 
 	// fonction Frames en boucle
-	setInterval(Frames,1);
+	setInterval(Frames,10);
 	
 	jeu(); //clavier, commandes utilisateurs, vérifications et changement des positions des cases joueurs
 	
@@ -376,11 +379,7 @@ jQuery(document).ready(function($){
 		});		
 	};//fin fonction jeu()
 	
-	
-	
-	
-	/*
-		var canvas = document.querySelector('canvas'),
+					var canvas = document.querySelector('canvas'),
 				ctx = canvas.getContext('2d'),
 				img = new Image(),
 			 
@@ -389,121 +388,112 @@ jQuery(document).ready(function($){
 				gCanvas.width = canvas.width;
 				gCanvas.height = canvas.height;
 	
-	*/
-	var yimg = 31;
-	var ximg = 31;
-	
-	var yaff = 31;
-	var xaff = 31;
 		
-function affichage(){ //affichae d'une [bille ou case]
+	function draw() {
+	  var ctx = document.getElementById('Plat').getContext('2d');
+	  var img = new Image();
+	  img.onload = function() {
+		
+		
+		ctx.drawImage(img, (x+(y-decay)/2-decax)*taille, (y-decay)*taille, taille, taille);
+		//context.clearRect((x+(y-decay)/2-decax)*taille, (y-decay)*taille, taille, taille);
+		
+		//ctx.beginPath();
+		/*ctx.moveTo(30, 96);
+		ctx.lineTo(180, 66);
+		ctx.lineTo(103, 76);
+		ctx.lineTo(100, 15);
+		ctx.fillRect(100, 100, 150, 150);*/
+		//ctx.stroke();
+		
+		
+	  };
+	}
+	
+	function draw2() {
+  var ctx = document.getElementById('canvas').getContext('2d');
+  var img = new Image();
+  img.onload = function() {
+    ctx.drawImage(img, 0, 0);
+    ctx.beginPath();
+    ctx.moveTo(30, 96);
+    ctx.lineTo(70, 66);
+    ctx.lineTo(103, 76);
+    ctx.lineTo(170, 15);
+    ctx.stroke();
+  };
+  img.src = 'https://mdn.mozillademos.org/files/5395/backdrop.png';
+}
+	
+	
+	function affichage(){ //affichae d'une [bille ou case]
 
 		//on efface le plateau de jeu
 		//ctx.clearRect(0,0,530,620);
 		
 		
 		//réaffiche le plateau de jeu, axe Y
-		
-
-		
-		//for (y = 31; y<=39; y++){
-		if(yaff<=45){
+		for (y = 31; y<=39; y++){
 			//réaffiche le plateau de jeu, axe X
-			if(xaff<=42){
-			//for (x = 31; x<=39; x++){
+			for (x = 31; x<=39; x++){
 				
-				
-				
-				zaff = xaff + yaff;
+				z = x + y;
 				
 				//affecte les modif (si modification) + efface tableau memo
-				if(jmem[xaff][yaff]!=0){;
-					j[xaff][yaff]=jmem[xaff][yaff];
-					jmem[xaff][yaff]=0;
+				if(jmem[x][y]!=0){;
+					j[x][y]=jmem[x][y];
+					jmem[x][y]=0;
 				};
-				//console.log("test:"+xaff+" "+yaff);
 				
-				var ctx = document.getElementById('Plat').getContext('2d');
-				var img = new Image();
-				
-				if(zaff>65 && zaff<75){
+				//affiche seulement entre 2 axe z (Axes x et y définit par les boucles x et y)
+				if(z>65 && z<75){
+					
+					var taille = 40;
+					var decax = 30;
+					var decay = 30;
 
+					draw();
 					
 					
-			
-
-					if(ys==yaff && xs==xaff && mode!=3 && mode!=6){	
+					//affiche selecteur (si mode 1;2;4;5)
+					if(ys==y && xs==x && mode!=3 && mode!=6){	
 						if(mode==1||mode==4){
 							//affiche selecteur mode position
-							if(j[xaff][yaff]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
-							if(j[xaff][yaff]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
-							if(j[xaff][yaff]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
+							if(j[x][y]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
+							if(j[x][y]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png'};//img depl
+							if(j[x][y]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png'};//img depl
 						};
 						if(mode==2||mode==5){
 							//affiche selecteur mode direction
-							if(j[xaff][yaff]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png';};//pos
-							if(j[xaff][yaff]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png';};//pos
-							if(j[xaff][yaff]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png';};//pos
+							if(j[x][y]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png'};//pos
+							if(j[x][y]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png'};//pos
+							if(j[x][y]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/d.png'};//pos
 						};						
 					}else{ //cases vides ou joueurs
 						if(((ys==ysd&&xs==xsd)||(mode!=2&&mode!=5))||(x!=xsd||y!=ysd)){
-							if(j[xaff][yaff]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/c.png';};//case vide
-							if(j[xaff][yaff]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/a.png';};//j1
-							if(j[xaff][yaff]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/b.png';};//j2
+							if(j[x][y]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/c.png'};//case vide
+							if(j[x][y]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/a.png'};//j1
+							if(j[x][y]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/b.png'};//j2
 						}else{
-							if(j[xaff][yaff]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
-							if(j[xaff][yaff]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
-							if(j[xaff][yaff]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png';};//img depl
+							if(j[x][y]==0){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png'};//img depl
+							if(j[x][y]==1){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png'};//img depl
+							if(j[x][y]==2){img.src = 'D:/DEV/NodeJS/jeu/imgs/p.png'};//img depl
 						};
 					};
-							
-					img.onload = function() {
 					
-						var taille = 42	;
-						var tX=xaff-30;
-						var tY=yaff-30;
-						
 					
-						//affiche seulement entre 2 axe z (Axes x et y définit par les boucles x et y)
-						if(yaff>=31&&yaff<=39&&xaff>=31&&xaff<=40){
-							
-							ctx.clearRect ((tX)*taille, (tY+tX/2)*taille,38,38);
-							ctx.drawImage(img, (tX)*taille, (tY+tX/2)*taille,38,38);
-							
-						};
-						
-						
-
-					};
-				
+					
+					
+					
+					
 				};
+			};//réaffiche le plateau de jeu, axe X
+		};//réaffiche le plateau de jeu, axe Y	
+		
 				
-				
-				
-				xaff++;
-				if(xaff>42){yaff++;xaff=31};
-				
-				
-				
-			};
-		}else{
-			if(xaff<=45){
-				yaff = 31;
-				xaff = 31;
-			
-				console.log("test");
-			};
-		};
-	};
-	
-	
-	
-	
-	
-	
 
+	};//fin fonction affichage()
 
-	
 	// IA (Trés grosse partie), je réunirais les bouts de codes identiques de tous le programme dans une prochaine version d'Abalone)
 
 	function IAfunction(){
@@ -1665,7 +1655,7 @@ function affichage(){ //affichae d'une [bille ou case]
 
 	};
 
-	function recharger(){
+function recharger(){
 		//recharge le jeu
 		mode = 4;
 		NombreJoueurs = 1;
@@ -1706,17 +1696,12 @@ function affichage(){ //affichae d'une [bille ou case]
 		ysmemjr2=35;
 			
 		debutBilles();	
-		/*for(x=0; x<=70; x++){
+		for(x=0; x<=70; x++){
 			for(var i5 = 0; i5 <= 50 ; i5++){
-				if(i5!=0){MJ[x][y][i5]=j[x][y]};
+				MJ[x][y][i5]=j[x][y];
 			};
-		};*/
+		};
 
 	};
 	
 });
-			
-			
-			
-			
-			
