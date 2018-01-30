@@ -180,7 +180,7 @@ jQuery(document).ready(function($){
 	};
 
 	// fonction Frames en boucle
-	setInterval(Frames,20);
+	setInterval(Frames,70);
 
 	jeu(); //clavier, commandes utilisateurs, vérifications et changement des positions des cases joueurs
 
@@ -450,8 +450,7 @@ function affichage(){ //affichae d'une [bille ou case]
 					if(ys==yaff && xs==xaff && mode!=3 && mode!=6){
 						if(mode==1||mode==4){
 							//affiche selecteur mode position
-							if(j[xaff][yaff]==0){img = imgp;
-							};//img depl
+							if(j[xaff][yaff]==0){img = imgp;};//img depl
 							if(j[xaff][yaff]==1){img = imgp;
 							testk = 1;
 							};//img depl
@@ -507,9 +506,13 @@ function affichage(){ //affichae d'une [bille ou case]
 							testk = 0;
 						};
 
-
-
+					//ctx.addEventListener('click', on_canvas_click, false);
+					//on_canvas_click(ev) {};
 					//};
+					var divMouseCaption = document.getElementById('Plat');
+					divMouseCaption.onmousemove = logFn;	
+					
+					//divMouseCaption.onclick = logFnOk;					
 
 				};
 
@@ -530,13 +533,37 @@ function affichage(){ //affichae d'une [bille ou case]
 			};
 		};
 	};
+	
+	$('#Plat').click(function(){Touche=48;entr();}); //entr;
 
 
-
-
-
-
-
+	var logFn = function(event){ //selection souris
+		
+		var taille = 49	;
+		
+		var lastX = Math.trunc(event.offsetX/taille)+30; 
+		var lastY = Math.trunc(event.offsetY/taille)+31-Math.trunc((event.offsetX/taille)/2); 
+		
+		xs = lastX;
+		ys = lastY;
+		zs = xs + ys;
+		
+		limiteC();
+		limiteCF();
+		
+		console.log("x    "+event.offsetX+"    "+lastX);
+		console.log("y    "+event.offsetY+"    "+lastY); 
+		console.log("----- "+xs+"  "+ys);
+		
+	};
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 	// IA (Trés grosse partie), je réunirais les bouts de codes identiques de tous le programme dans une prochaine version d'Abalone)
@@ -1521,6 +1548,13 @@ function affichage(){ //affichae d'une [bille ou case]
 		//.log("ToucheID:"+Touche);
 		//.log("Mode:"+mode);
 
+		entr();
+		
+		
+
+	};
+	
+	function entr(){
 		if(Touche==48||Touche==98||Touche==55){
 
 			timerScroll = timeTimerScroll;
@@ -1543,6 +1577,8 @@ function affichage(){ //affichae d'une [bille ou case]
 
 			};
 		};
+		
+		//.onclick 
 
 		//Condition Touche==32||Touche==48||Touche==98||Touche==98, 2eme fois pour sortir de la condition.
 		if(Touche==48||Touche==98||Touche==55){
@@ -1697,7 +1733,6 @@ function affichage(){ //affichae d'une [bille ou case]
 			};
 
 		};
-
 	};
 
 	function recharger(){
