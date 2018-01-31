@@ -38,8 +38,13 @@ jQuery(document).ready(function($){
 	var zz = 0;
 
 	// nombre de billes
-	var j1 = 6;
-	var j2 = 6;
+	var nbilles = 6;
+	
+	$("#j1").text(nbilles);
+	$("#j2").text(nbilles);
+	
+	var j1 = nbilles;
+	var j2 = nbilles;
 
 	//couleurs billes
 	var clr = 0;//mode
@@ -526,7 +531,7 @@ function affichage(){ //affichae d'une [bille ou case]
 			};
 		}else{
 			if(xaff<=45){
-				yaff = 31;
+				yaff = 31;	
 				xaff = 31;
 
 				//console.log("test");
@@ -546,6 +551,14 @@ function affichage(){ //affichae d'une [bille ou case]
 		
 		xs = lastX;
 		ys = lastY;
+		
+		//si nombre paire:
+		if (ys/2==Math.trunc(ys/2)){
+			
+			lastY = Math.trunc((event.offsetY+1)/taille)+31-Math.trunc((event.offsetX/taille)/2); 
+			ys = lastY;
+		}
+		
 		zs = xs + ys;
 		
 		limiteC();
@@ -1558,7 +1571,7 @@ function affichage(){ //affichae d'une [bille ou case]
 		if(Touche==48||Touche==98||Touche==55){
 
 			timerScroll = timeTimerScroll;
-			$(document).scrollTop(0);
+			//$(document).scrollTop(0);
 
 			if(mode==1||mode==4){
 									//Touche=0; .log("test1");
@@ -1739,8 +1752,8 @@ function affichage(){ //affichae d'une [bille ou case]
 		//recharge le jeu
 		mode = 4;
 		NombreJoueurs = 1;
-		j1 = 6;
-		j2 = 6;
+		j1 = nbilles;
+		j2 = nbilles;
 		Touche = 0;
 		Ttstate = "IA";
 		nCoup = 0;
